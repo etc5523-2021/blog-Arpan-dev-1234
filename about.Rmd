@@ -1,7 +1,9 @@
 ---
 title: "About this blog"
 description: |
-  Some additional details about the blog
+  Covid-19 : the menace to the global community in an era when homosapiense is boasting its technological superiority. I also joined the league of those researchers who are on a mission to find some insight that might help the global community to face the menace the better way scientifically.
+
+
 ---
 
 ```{r setup, include=FALSE}
@@ -11,6 +13,8 @@ knitr::opts_chunk$set(echo = FALSE)
 
 
 ## Covid-19 Data Collection
+
+Live and historical data available in public domain on Covid-19 of the United Kingdom are explored.
 
 ### Data description
 
@@ -22,7 +26,15 @@ knitr::opts_chunk$set(echo = FALSE)
 h2 {
   color: #006DAE;
 }
-
+h1 {
+  display: block;
+  font-size: 2em;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
 ```
 
 Dataset is collected from Joachim Gassen's [[**Github-repository**]{.fill}](https://github.com/joachim-gassen/tidycovid19)
