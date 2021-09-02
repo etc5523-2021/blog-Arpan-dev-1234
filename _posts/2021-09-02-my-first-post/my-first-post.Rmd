@@ -1,0 +1,75 @@
+---
+title: "Covid-19 Still a Menace:"
+description: |
+  An Insight on live data of UK
+author:
+  - name: Arpan Sarkar
+date: 09-02-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+```{css, echo = FALSE}
+.fill {
+  color: red;
+  font-weight: bold;
+}
+h2 {
+  color: #006DAE;
+}
+
+.fill1 {
+  color: #c41244;
+  font-weight: normal;
+}
+
+.fill2 {
+  color: #1c2aad;
+  font-weight: normal;
+}
+
+
+```
+
+```{r echo = FALSE, warning = FALSE,message=FALSE}
+library(tidyverse)
+library(tidycovid19)
+library(zoo)
+library(plotly)
+library(ggforce)
+library(patchwork)
+library(ggtext)
+
+
+df <- download_merged_data(cached = TRUE, silent = TRUE)
+
+s<-df %>%
+  filter(iso3c == "GBR") %>%
+  mutate(
+    new_cases = confirmed - lag(confirmed),
+    ave_new_cases = rollmean(new_cases, 7, na.pad=TRUE, align="right"),
+  new_deaths = deaths-lag(deaths), ave_new_deaths= rollmean(new_deaths, 7, na.pad=TRUE, align="right") ) %>%
+  filter(!is.na(new_cases), !is.na(ave_new_cases)) %>%
+  filter(!is.na(new_deaths), !is.na(ave_new_deaths))%>%
+  ggplot(aes(x = date)) +
+  scale_x_date(date_breaks = "1 month")+         
+  labs(y="New cases and deaths")+
+  geom_bar(aes(y = new_cases), stat = "identity", fill = "lightblue") +
+  geom_line(aes(y = ave_new_cases), color ="orange") +
+  geom_line(aes(y= new_deaths), color ="red")+
+  theme_minimal()
+
+ggplotly(s)
+```
+
+
+[Covid-19]{.fill} is still threatening the normal life across the globe. 
+The new mutant as [[Delta variant]{.fill1}](https://www.cdc.gov/coronavirus/2019-ncov/variants/delta-variant.html) is the new threat.
+Efficacy of vaccines are now open beyond doubt.
+Watch the current state of affairs with live data from UK. 
+From middle of [March 2020]{.fill2}, covid-19 cases started picking up and 
+within a month reached a high of [5486]{.fill2} and then tapered down to [below 10]{.fill2} in 2020 July 1st week.  
+Again the rise in new cases picked up to more than 33.5K by Nov 12 2020 to fall down again to [1430]{.fill2} by Nov beginning dame year. And menacingly, by the end of 1st week of January 2021, the cases reached the peak with more than [68K]{.fill2}. The cases fell down to [1640]{.fill2} by 10th of April 21.
+Again a V shaped  rise in cases to above [47.7K]{.fill2} by July 21, then fell to [25K]{.fill2} in 1st week of August to rise again to [34K]{.fill2} by end of August. 
+New fatal cases rose from 1 on 6th March 2020 to [1123]{.fill2} on 10th April 2020. New fatal case fell to 1 by start of August 1st week. Fatal cases rose to above [1450]{.fill2} by start of Feb 2021.On May 3 new death case dropped to 1 again rose very mildly and fell to [0]{.fill2} on 1st June 21. Figure started rising and by end week of August a high of [133]{.fill2} observed.
+
