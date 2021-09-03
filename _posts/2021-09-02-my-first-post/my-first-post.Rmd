@@ -156,7 +156,7 @@ Now we need to answer not one question but two questions. Before coming to that 
 - Statistics of the variables used for analysis are also provided in a tabular format below.
 
 
-# summary statistics
+# Statistical description of covid-19 parameters
 
 ```{r summary,echo = FALSE, warning = FALSE,message=FALSE,fig.cap="Statistical description of covid-19 parameters"}
 
