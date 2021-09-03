@@ -173,6 +173,7 @@ stat_tab<-descr(gbr_stat)%>%kbl() %>%
 stat_tab
 
 ```
+
 # Full Vaccination Percentage In UK 
 
 ```{r vaccination, echo = FALSE, warning = FALSE,message=FALSE}
