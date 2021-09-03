@@ -124,15 +124,16 @@ df <- download_merged_data(cached = TRUE, silent = TRUE)
 gbr<-df %>%
   filter(iso3c == "GBR")
 
-gbr_wide<- gbr %>%  mutate(new_cases = confirmed - lag(confirmed), new_deaths= deaths-lag(deaths),new_vaccination = total_vaccinations - lag(total_vaccinations), new_recovered= recovered- lag(recovered), new_tests= total_tests- lag(total_tests),Month_yr=format_ISO8601(gbr$date, precision = "ym"),vaccination_pcnt=(total_vaccinations/population)*100)%>%select(Month_yr,new_tests,new_cases,new_deaths,new_vaccination,new_recovered,deaths,total_vaccinations,vaccination_pcnt)
+gbr_wide<- gbr %>%  mutate(new_cases = confirmed - lag(confirmed), new_deaths= deaths-lag(deaths),new_vaccination = total_vaccinations - lag(total_vaccinations), new_recovered= recovered- lag(recovered), new_tests= total_tests- lag(total_tests),Month_yr=format_ISO8601(gbr$date, precision = "ym"),vaccination_pcnt=(total_vaccinations/(2*population)*100))%>%select(Month_yr,new_tests,new_cases,new_deaths,new_vaccination,new_recovered,deaths,total_vaccinations,vaccination_pcnt)
 
 gbr_stat<- gbr %>%  mutate(covid_cases = confirmed - lag(confirmed), deaths= deaths-lag(deaths),vaccination = total_vaccinations - lag(total_vaccinations), recovered= recovered- lag(recovered), covid_tests= total_tests- lag(total_tests))%>%select(covid_tests,covid_cases,deaths,vaccination,recovered)
 
 gbr_new<-gbr %>%  mutate(new_cases = confirmed - lag(confirmed), new_deaths= deaths-lag(deaths),new_vaccination = total_vaccinations - lag(total_vaccinations), new_recovered= recovered- lag(recovered), new_tests= total_tests- lag(total_tests))%>%pivot_longer(cols = c("new_cases","new_deaths","new_vaccination","new_recovered","new_tests"), names_to = "variable", values_to = "value")%>% select(date,country, variable,value,hosp_patients,icu_patients)
 
-hchart(gbr_new, "line", 
-  hcaes(x = date, y = value, group = variable)
-  )
+
+gbr_new %>% 
+  count(date, value,variable) %>% 
+  hchart('spline', hcaes(x = 'date', y = 'value', group= 'variable'))
 
 ```
 
@@ -145,13 +146,13 @@ Just to understand it, let's choose two parameters viz. New cases and new vaccin
 
 Now we need to answer not one question but two questions. Before coming to that let's analyse vaccination data. 
 
-- March 20 showing total inoculation of 844285. Naturally the figure includes 2nd dose cases as well. April 6th vaccination was as low as 272020. Again on May 22nd, total inoculation figure rose to 762361. Again on June 20 vaccination figure dropped to 273158 and thereafter the figures were never below 150000, except on August 30 when it went below 100000 to record low of 86291.
+- March 20 showing total inoculation of [844285]{.fill2}. Naturally the figure includes 2nd dose cases as well. April 6th vaccination was as low as [272020]{.fill2}. Again on May 22nd, total inoculation figure rose to [762361]{.fill2}. Again on June 20 vaccination figure dropped to [273158]{.fill2} and thereafter the figures were never below [150000]{.fill2}, except on August 30 when it went below [100000]{.fill2} to record low of [86291]{.fill2}.
 
-- On January 12th 2021, new death cases were 1246 a d on 13th it was 1568. On 17th figure went down to 682 and on 18th 602 only. It hovered above 1000 but again fell to 594 on 25th. Again little increase but went down to 333 on February 8th. Then little increase but fell to 259 on Feb 14th to 178 on Feb 22nd to 65 only on March 8. Again very little increase, then fell to merely 18 on Mar 22 and remained low and reached to one of the lowest figure of 7 on April 11.
+- On January 12th 2021, new death cases were [1246]{.fill2} a d on 13th it was [1568]{.fill2}. On 17th figure went down to [682]{.fill2} and on 18th 602 only. It hovered above [1000]{.fill2} but again fell to [594]{.fill2} on 25th. Again little increase but went down to [333]{.fill2}on February 8th. Then little increase but fell to [259]{.fill2} on Feb 14th to [178]{.fill2} on Feb 22nd to [65]{.fill2} only on March 8. Again very little increase, then fell to merely [18]{.fill2} on Mar 22 and remained low and reached to one of the lowest figure of 7 on April 11.
 
-- May 6 figure was only 6, May 10 had only 5, May 16 only 4 and remained below 2 digits to reach the figure of 3 only on June 14. Only after a few days’ figure touched 2 digits but below 20 mostly and again went down to 3 only. Slight increase but June 28 had 3 cases only. After July 12 (figure 6 only) started rising (13th 50 cases, 15th 67 cases, 21st 73 cases, 26th 14 cases, 27th 131 cases, 31st 72 cases, Aug 2nd 25 cases, Aug 10th 146 cases, Aug 17th 170 cases, Aug 24th 174 cases a d Aug 31st 51 cases).
+- May 6 figure was only [6]{.fill2}, May 10 had only [5]{.fill2}, May 16 only [4]{.fill2} and remained below 2 digits to reach the figure of [3]{.fill2} only on June 14. Only after a few days’ figure touched 2 digits but below 20 mostly and again went down to [3]{.fill2} only. Slight increase but June 28 had [3]{.fill2} cases only. After July 12 (figure 6 only) started rising (13th 50 cases, 15th [67]{.fill2} cases, 21st [73]{.fill2} cases, 26th [14]{.fill2} cases, 27th 131 cases, 31st [72]{.fill2} cases, Aug 2nd 25 cases, Aug 10th 146 cases, Aug 17th [170]{.fill2} cases, Aug 24th 174 cases a d Aug 31st 51 cases).
 
-- Now for the prime question, answer is clear. Vaccine worked and is working with desired efficacy. People who were sceptical can now be rest assured on this point.
+- Now for the prime question, answer is clear. Vaccine worked and is working with desired efficacy. People who were skeptical can now be rest assured on this point.
 
 - The other question that is evident from data, is why from July 2021, cases of infection started rising of a greater proportion although death cases although were little high but not at that proportion? The answer is the advent of new mutant of Covid-19 called Delta Variant for the 1st cause i.e., rise in infection cases and effect of Vaccines for the 2nd cause i.e., fatal cases were contained.
 
@@ -172,28 +173,101 @@ stat_tab<-descr(gbr_stat)%>%kbl() %>%
 stat_tab
 
 ```
+# Full Vaccination Percentage In UK 
 
+```{r vaccination, echo = FALSE, warning = FALSE,message=FALSE}
+gbr_wide%>%filter(Month_yr>"2020-11")%>%
+  
+hchart(type = "bar", hcaes(x = Month_yr , y = vaccination_pcnt,color=c("#009107")))%>% hc_yAxis(title = list(text = "Percentage Of Vaccination"),
+         
+         plotLines = list(
+           list(label = list(text = ""),
+                color = "red",
+                width = 2,
+                value = 50)))
+
+
+
+```
 
 # Interactive Data Populated Year-Month Wise
 
 ```{r Interactive, echo = FALSE, warning = FALSE,message=FALSE}
 library(sparkline)
 library(DT)
-gbr_wide %>%
-  group_by(Month_yr)%>%
-  summarise(avg_total_tests = scales::comma(round(mean(new_tests))),
-            avg_new_cases = scales::comma(round(mean(new_cases))),
-            new_cases_trend = spk_chr(new_cases, type = "line"),
-            avg_total_deaths = scales::comma(round(mean(deaths))),
+gbr_wide %>%group_by(Month_yr)%>%
+summarise(avg_numberof_tests = scales::comma(round(mean(new_tests))),avg_numberof_cases = scales::comma(round(mean(new_cases))),new_cases_trend = spk_chr(new_cases, type = "line"),avg_numberof_deaths = scales::comma(round(mean(deaths))),
             new_deaths_trend = spk_chr(new_deaths, type = "line")) %>%
- 
-  
-  datatable(escape = FALSE, 
-            options = list(columnDefs = list(list(className = 'dt-right', targets = 0:4))),
+ datatable(escape = FALSE, 
+            options = list(columnDefs = list(list(className = 'dt-right', targets = 0:5))),
             colnames = c("Year Month", "Total Tests", "Cases/day", "Covid Cases Trend","Total Deaths", "Deaths/day")
             ) %>%
   spk_add_deps()
 ```
+
+# References
+
+[1] Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source
+  Software, 4(43), 1686, https://doi.org/10.21105/joss.01686
+  
+[2] Joachim Gassen (2021). tidycovid19: Download, Tidy and Visualize Covid-19
+  Related Data. R package version 0.0.0.9000.
+  
+[3] Achim Zeileis and Gabor Grothendieck (2005). zoo: S3 Infrastructure for
+  Regular and Irregular Time Series. Journal of Statistical Software, 14(6),
+  1-27. doi:10.18637/jss.v014.i06
+
+[4] C. Sievert. Interactive Web-Based Data Visualization with R, plotly, and
+  shiny. Chapman and Hall/CRC Florida, 2020.
+  
+[5] Thomas Lin Pedersen (2021). ggforce: Accelerating 'ggplot2'. R package
+  version 0.3.3. https://CRAN.R-project.org/package=ggforce
+  
+[6] Thomas Lin Pedersen (2020). patchwork: The Composer of Plots. R package
+  version 1.1.1. https://CRAN.R-project.org/package=patchwork
+  
+[7] Claus O. Wilke (2020). ggtext: Improved Text Rendering Support for 'ggplot2'.
+  R package version 0.1.1. https://CRAN.R-project.org/package=ggtext
+
+[8] Ramnath Vaidyanathan, Kent Russell and Gareth Watts (2016). sparkline:
+  'jQuery' Sparkline 'htmlwidget'. R package version 2.0.
+  https://CRAN.R-project.org/package=sparkline
+
+[9]  Yihui Xie, Joe Cheng and Xianying Tan (2021). DT: A Wrapper of the JavaScript
+  Library 'DataTables'. R package version 0.18.
+  https://CRAN.R-project.org/package=DT
+  
+[10] Dominic Comtois (2021). summarytools: Tools to Quickly and Neatly Summarize
+  Data. R package version 1.0.0.
+  https://CRAN.R-project.org/package=summarytools
+  
+[11]  Joshua Kunst (2020). highcharter: A Wrapper for the 'Highcharts' Library. R
+  package version 0.8.2. https://CRAN.R-project.org/package=highcharter
+  
+[12]  Hao Zhu (2021). kableExtra: Construct Complex Table with 'kable' and Pipe
+  Syntax. R package version 1.3.4.
+  https://CRAN.R-project.org/package=kableExtra
+  
+[13]  Garrett Grolemund, Hadley Wickham (2011). Dates and Times Made Easy with
+  lubridate. Journal of Statistical Software, 40(3), 1-25. URL
+  https://www.jstatsoft.org/v40/i03/.
+
+  
+  
+
+
+
+ 
+
+
+ 
+
+
+
+
+
+
+
 
 
 
