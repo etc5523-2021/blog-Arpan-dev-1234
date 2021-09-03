@@ -45,7 +45,7 @@ h2 {
 
 # Historical and live Covid-19 Data Of UK
 
-```{r echo = FALSE, warning = FALSE,message=FALSE}
+```{r covid,echo = FALSE, warning = FALSE,message=FALSE}
 library(tidyverse)
 library(tidycovid19)
 library(zoo)
@@ -53,6 +53,13 @@ library(plotly)
 library(ggforce)
 library(patchwork)
 library(ggtext)
+library(sparkline)
+library(DT)
+library(summarytools)
+library(highcharter)
+library(kableExtra)
+library(lubridate)
+
 
 
 df <- download_merged_data(cached = TRUE, silent = TRUE)
@@ -85,7 +92,7 @@ Efficacy of vaccines are now open beyond doubt.
 Watch the current state of affairs with live data from UK. 
 From middle of [March 2020]{.fill2}, covid-19 cases started picking up and 
 within a month reached a high of [5486]{.fill2} and then tapered down to [below 10]{.fill2} in 2020 July 1st week.  
-Again the rise in new cases picked up to more than 33.5K by Nov 12 2020 to fall down again to [1430]{.fill2} by Nov beginning dame year. And menacingly, by the end of 1st week of January 2021, the cases reached the peak with more than [68K]{.fill2}. The cases fell down to [1640]{.fill2} by 10th of April 21.
+Again the rise in new cases picked up to more than [33.5K]{.fill2} by Nov 12 2020 to fall down again to [1430]{.fill2} by Nov beginning dame year. And menacingly, by the end of 1st week of January 2021, the cases reached the peak with more than [68K]{.fill2}. The cases fell down to [1640]{.fill2} by 10th of April 21.
 Again a V shaped  rise in cases to above [47.7K]{.fill2} by July 21, then fell to [25K]{.fill2} in 1st week of August to rise again to [34K]{.fill2} by end of August. 
 New fatal cases rose from 1 on 6th March 2020 to [1123]{.fill2} on 10th April 2020. New fatal case fell to 1 by start of August 1st week. Fatal cases rose to above [1450]{.fill2} by start of Feb 2021.On May 3 new death case dropped to 1 again rose very mildly and fell to [0]{.fill2} on 1st June 21. Figure started rising and by end week of August a high of [133]{.fill2} observed.
 
@@ -107,17 +114,7 @@ The startling revelation that is evident from the analysis are:
 # Interactive Analysis Of Covid-19 Parameters
 
 ```{r echo = FALSE, warning = FALSE,message=FALSE}
-library(highcharter)
-library(tidyverse)
-library(tidycovid19)
-library(zoo)
-library(plotly)
-library(ggforce)
-library(patchwork)
-library(ggtext)
-library(kableExtra)
-library(lubridate)
-library(summarytools)
+
 
 df <- download_merged_data(cached = TRUE, silent = TRUE)
 
@@ -142,7 +139,7 @@ For the answer, the latest concept of interactive visualisation for multiple par
 
 Coming to the question, yes you have guessed it right. It is the Vaccination that changed the game altogether.
 
-Just to understand it, let's choose two parameters viz. New cases and new vaccination. See the behavior! Second week of January (11/01/2021) the much awaited vaccination started with 1,65,844 persons' inoculation on day one. And during this week the new infection cases were all time high with 68192 on Jan 8, a record high. Gradually, but steadily new infection cases went on dropping below1800 on April 25. It remained below 10k till 20th June. Then onwards started rising to reach another peak with 47848 cases on July 18th. Then dropped a bit, but remained above 25k with 32167 as on August 31st.
+Just to understand it, let's choose two parameters viz. New cases and new vaccination. See the behavior! Second week of January (11/01/2021) the much awaited vaccination started with [1,65,844]{.fill2} persons' inoculation on day one. And during this week the new infection cases were all time high with [68192]{.fill2} on Jan 8, a record high. Gradually, but steadily new infection cases went on dropping below [1800]{.fill2} on April 25. It remained below [10k]{.fill2} till 20th June. Then onwards started rising to reach another peak with [47848]{.fill2} cases on July 18th. Then dropped a bit, but remained above [25k]{.fill2} with [32167]{.fill2} as on August 31st.
 
 Now we need to answer not one question but two questions. Before coming to that let's analyse vaccination data. 
 
@@ -150,11 +147,11 @@ Now we need to answer not one question but two questions. Before coming to that 
 
 - On January 12th 2021, new death cases were [1246]{.fill2} a d on 13th it was [1568]{.fill2}. On 17th figure went down to [682]{.fill2} and on 18th 602 only. It hovered above [1000]{.fill2} but again fell to [594]{.fill2} on 25th. Again little increase but went down to [333]{.fill2}on February 8th. Then little increase but fell to [259]{.fill2} on Feb 14th to [178]{.fill2} on Feb 22nd to [65]{.fill2} only on March 8. Again very little increase, then fell to merely [18]{.fill2} on Mar 22 and remained low and reached to one of the lowest figure of 7 on April 11.
 
-- May 6 figure was only [6]{.fill2}, May 10 had only [5]{.fill2}, May 16 only [4]{.fill2} and remained below 2 digits to reach the figure of [3]{.fill2} only on June 14. Only after a few days’ figure touched 2 digits but below 20 mostly and again went down to [3]{.fill2} only. Slight increase but June 28 had [3]{.fill2} cases only. After July 12 (figure 6 only) started rising (13th 50 cases, 15th [67]{.fill2} cases, 21st [73]{.fill2} cases, 26th [14]{.fill2} cases, 27th 131 cases, 31st [72]{.fill2} cases, Aug 2nd 25 cases, Aug 10th 146 cases, Aug 17th [170]{.fill2} cases, Aug 24th 174 cases a d Aug 31st 51 cases).
+- May 6 figure was only [6]{.fill2}, May 10 had only [5]{.fill2}, May 16 only [4]{.fill2} and remained below 2 digits to reach the figure of [3]{.fill2} only on June 14. Only after a few days’ figure touched 2 digits but below 20 mostly and again went down to [3]{.fill2} only. Slight increase but June 28 had [3]{.fill2} cases only. After July 12 (figure 6 only) started rising (13th 50 cases, 15th [67]{.fill2} cases, 21st [73]{.fill2} cases, 26th [14]{.fill2} cases, 27th 131 cases, 31st [72]{.fill2} cases, Aug 2nd 25 cases, Aug 10th 146 cases, Aug 17th [170]{.fill2} cases, Aug 24th [174]{.fill2} cases a d Aug 31st 51 cases).
 
 - Now for the prime question, answer is clear. Vaccine worked and is working with desired efficacy. People who were skeptical can now be rest assured on this point.
 
-- The other question that is evident from data, is why from July 2021, cases of infection started rising of a greater proportion although death cases although were little high but not at that proportion? The answer is the advent of new mutant of Covid-19 called Delta Variant for the 1st cause i.e., rise in infection cases and effect of Vaccines for the 2nd cause i.e., fatal cases were contained.
+- The other question that is evident from data, is why from July 2021, cases of infection started rising of a greater proportion although death cases were little high but not at that proportion? The answer is the advent of new mutant of Covid-19 called Delta Variant for the 1st cause i.e., rise in infection cases and effect of Vaccines for the 2nd cause i.e., fatal cases were contained.
 
 - Statistics of the variables used for analysis are also provided in a tabular format below.
 
@@ -162,7 +159,7 @@ Now we need to answer not one question but two questions. Before coming to that 
 # summary statistics
 
 ```{r summary,echo = FALSE, warning = FALSE,message=FALSE}
-library(summarytools)
+
 
 options(scipen = 999)
 
@@ -194,8 +191,6 @@ hchart(type = "bar", hcaes(x = Month_yr , y = vaccination_pcnt,color=c("#009107"
 # Interactive Data Populated Year-Month Wise
 
 ```{r Interactive, echo = FALSE, warning = FALSE,message=FALSE}
-library(sparkline)
-library(DT)
 gbr_wide %>%group_by(Month_yr)%>%
 summarise(avg_numberof_tests = scales::comma(round(mean(new_tests))),avg_numberof_cases = scales::comma(round(mean(new_cases))),new_cases_trend = spk_chr(new_cases, type = "line"),avg_numberof_deaths = scales::comma(round(mean(deaths))),
             new_deaths_trend = spk_chr(new_deaths, type = "line")) %>%
