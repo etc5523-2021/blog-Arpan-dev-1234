@@ -194,7 +194,7 @@ summarise(avg_numberof_tests = scales::comma(round(mean(new_tests))),avg_numbero
             new_deaths_trend = spk_chr(new_deaths, type = "line")) %>%
  datatable(escape = FALSE, 
             options = list(columnDefs = list(list(className = 'dt-right', targets = 0:5))),
-            colnames = c("Year Month", "Total Tests", "Cases/day", "Covid Cases Trend","Total Deaths", "Deaths/day")
+            colnames = c("Year Month", "Total Tests", "Average Cases/day", "Covid Cases Trend","Total Deaths", "Deaths/day")
             ) %>%
   spk_add_deps()
 ```
