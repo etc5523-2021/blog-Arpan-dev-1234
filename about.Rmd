@@ -6,6 +6,9 @@ description: |
 
 ---
 
+
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
@@ -20,6 +23,14 @@ h2 {
 }
 
 ```
+
+
+
+ 
+
+![Source:https://commons.wikimedia.org/wiki/File:Covid-19-curves-graphic2-stopthespread-v2.gif](https://upload.wikimedia.org/wikipedia/commons/3/32/Covid-19-curves-graphic2-stopthespread-v2.gif)
+
+
 
 ## Covid-19 Data Collection
 
