@@ -45,7 +45,7 @@ h2 {
 
 # Historical and live Covid-19 Data Of UK
 
-```{r covid,echo = FALSE, warning = FALSE,message=FALSE}
+```{r covid,echo = FALSE, warning = FALSE,message=FALSE,fig.cap="Covid-19 confirmed and death cases distribution"}
 library(tidyverse)
 library(tidycovid19)
 library(zoo)
@@ -59,7 +59,7 @@ library(summarytools)
 library(highcharter)
 library(kableExtra)
 library(lubridate)
-
+library(gt)
 
 
 df <- download_merged_data(cached = TRUE, silent = TRUE)
@@ -113,7 +113,7 @@ The startling revelation that is evident from the analysis are:
 
 # Interactive Analysis Of Covid-19 Parameters
 
-```{r echo = FALSE, warning = FALSE,message=FALSE}
+```{r echo = FALSE, warning = FALSE,message=FALSE,fig.cap="Interactive line chart of covid-19 parameters"}
 
 
 df <- download_merged_data(cached = TRUE, silent = TRUE)
@@ -158,7 +158,7 @@ Now we need to answer not one question but two questions. Before coming to that 
 
 # summary statistics
 
-```{r summary,echo = FALSE, warning = FALSE,message=FALSE}
+```{r summary,echo = FALSE, warning = FALSE,message=FALSE,fig.cap="Statistical description of covid-19 parameters"}
 
 
 options(scipen = 999)
@@ -166,14 +166,12 @@ options(scipen = 999)
 stat_tab<-descr(gbr_stat)%>%kbl() %>%
   kable_paper("striped", full_width = F) %>%
   kable_material() 
-
 stat_tab
-
 ```
 
 # Full Vaccination Percentage In UK 
 
-```{r vaccination, echo = FALSE, warning = FALSE,message=FALSE}
+```{r vaccination, echo = FALSE, warning = FALSE,message=FALSE,fig.cap="Covid-19 vaccination coverage month and year wise"}
 gbr_wide%>%filter(Month_yr>"2020-11")%>%
   
 hchart(type = "bar", hcaes(x = Month_yr , y = vaccination_pcnt,color=c("#009107")))%>% hc_yAxis(title = list(text = "Percentage Of Vaccination"),
@@ -190,7 +188,7 @@ hchart(type = "bar", hcaes(x = Month_yr , y = vaccination_pcnt,color=c("#009107"
 
 # Interactive Data Populated Year-Month Wise
 
-```{r Interactive, echo = FALSE, warning = FALSE,message=FALSE}
+```{r Interactive, echo=FALSE, message=FALSE, warning=FALSE,fig.cap="Interactive data table showing trend of some parameters month and year wise"}
 gbr_wide %>%group_by(Month_yr)%>%
 summarise(avg_numberof_tests = scales::comma(round(mean(new_tests))),avg_numberof_cases = scales::comma(round(mean(new_cases))),new_cases_trend = spk_chr(new_cases, type = "line"),avg_numberof_deaths = scales::comma(round(mean(deaths))),
             new_deaths_trend = spk_chr(new_deaths, type = "line")) %>%
