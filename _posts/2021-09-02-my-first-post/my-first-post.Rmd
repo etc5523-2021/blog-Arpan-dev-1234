@@ -84,7 +84,7 @@ s<-df %>%
 
 ggplotly(s)
 ```
-
+*user guide: use compare data on hover feature available over Figure-1 *
 
 [Covid-19]{.fill} is still threatening the normal life across the globe. 
 The new mutant as [[Delta variant]{.fill1}](https://www.cdc.gov/coronavirus/2019-ncov/variants/delta-variant.html) is the new threat.
