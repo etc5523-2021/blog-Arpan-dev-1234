@@ -113,7 +113,7 @@ The startling revelation that is evident from the analysis are:
 
 # Interactive Analysis Of Covid-19 Parameters
 
-```{r echo = FALSE, warning = FALSE,message=FALSE,fig.cap="Interactive line chart of covid-19 parameters"}
+```{r Int,echo = FALSE, warning = FALSE,message=FALSE,fig.cap="Interactive line chart of covid-19 parameters"}
 
 
 df <- download_merged_data(cached = TRUE, silent = TRUE)
@@ -134,7 +134,7 @@ gbr_new %>%
 
 ```
 
-Big question is How the infection and fatality dropped down during April to July in 2021 and thereafter new infection increased but fatal cases remain low? Want the answer?  See my next post. 
+Big question is How the infection and fatality dropped down during April to July in 2021 and thereafter new infection increased but fatal cases remain low? Want the answer?  See my next plot \@ref(fig:Int). 
 For the answer, the latest concept of interactive visualisation for multiple parameters on a single canvas is created. Here the users are at liberty to choose parameter(s) of his/her choice. Hovering the cursor over the points of the diagram(s) instantly displays the level and value(s) for ready reference of actual value. Due to scale difference of the relevant parameters, this kind of interactive display is excellent to understand the live behaviour of data.
 
 Coming to the question, yes you have guessed it right. It is the Vaccination that changed the game altogether.
@@ -155,6 +155,14 @@ Now we need to answer not one question but two questions. Before coming to that 
 
 - Statistics of the variables used for analysis are also provided in a tabular format below.
 
+```{r tab,echo = FALSE, warning = FALSE,message=FALSE,fig.cap="Reference Table"}
+gbr_1<-gbr %>%  mutate(new_cases = confirmed - lag(confirmed), new_deaths= deaths-lag(deaths),new_vaccination = total_vaccinations - lag(total_vaccinations), new_recovered= recovered- lag(recovered), new_tests= total_tests- lag(total_tests))%>% select(date,new_tests,new_cases,new_deaths,new_vaccination,new_recovered,deaths,total_vaccinations)%>%kbl() %>%
+  kable_paper() %>%
+  scroll_box(width = "660px", height = "400px")
+
+gbr_1
+
+```
 
 # Statistical description of covid-19 parameters
 
