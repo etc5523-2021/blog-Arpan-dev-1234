@@ -80,19 +80,20 @@ covdf1 <- covdf %>%
   select(-`deaths`) %>% 
   mutate(Rank = 1:nrow(covdf)) %>% 
   relocate(Rank, .before = country) %>% 
-  mutate(deathRank = order(order(deathRate, decreasing = T))) %>% 
-  relocate(deathRank, .before = population) %>%
-  mutate(populationRank = order(order(population, decreasing = T))) %>% 
+  mutate(death_rank = order(order(deathRate, decreasing = T))) %>% 
+  relocate(death_rank, .before = population) %>%
+  mutate(population_rank = order(order(population, decreasing = T))) %>% 
   rename(population = `population`) %>% 
-  relocate(vaccinationpcnt, .after = populationRank) %>% 
+  relocate(vaccinationpcnt, .after = population_rank) %>% 
   rename(Vax_Percentage = vaccinationpcnt) %>% 
+  rename(New_cases = confirmed )%>%
   mutate(across(is.numeric, ~round(.,3)))
 covdf1$country[6]<-"UAE"
 covdf1$country[11]<-"PSE"
 library(kableExtra)
 library(formattable)
 formattable(covdf1, list(
-    confirmed = color_tile("transparent", "#f5b642"),
+    New_cases = color_tile("transparent", "#f5b642"),
     deathRate = color_tile("transparent", "#e04c65"),
     population = color_tile("transparent", "#fc6958")
     ),
