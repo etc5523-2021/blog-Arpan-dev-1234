@@ -43,7 +43,7 @@ h2 {
 
 ![United Kingdom](https://upload.wikimedia.org/wikipedia/commons/2/2d/Animated-Flag-United-Kingdom.gif)
 
-# Historical and live Covid-19 Data Of UK
+## Historical and live Covid-19 Data Of UK
 
 ```{r covid,echo = FALSE, warning = FALSE,message=FALSE,fig.cap="Covid-19 confirmed and death cases distribution"}
 library(tidyverse)
@@ -92,7 +92,7 @@ Efficacy of vaccines are now open beyond doubt.
 Watch the current state of affairs with live data from UK. 
 From middle of [March 2020]{.fill2}, covid-19 cases started picking up and 
 within a month reached a high of [5486]{.fill2} and then tapered down to [below 10]{.fill2} in 2020 July 1st week.  
-Again the rise in new cases picked up to more than [33.5K]{.fill2} by Nov 12 2020 to fall down again to [1430]{.fill2} by Nov beginning dame year. And menacingly, by the end of 1st week of January 2021, the cases reached the peak with more than [68K]{.fill2}. The cases fell down to [1640]{.fill2} by 10th of April 21.
+Again the rise in new cases picked up to more than [33.5K]{.fill2} by Nov 12 2020 to fall down again to [1430]{.fill2} by Nov beginning same year. And menacingly, by the end of 1st week of January 2021, the cases reached the peak with more than [68K]{.fill2}. The cases fell down to [1640]{.fill2} by 10th of April 21.
 Again a V shaped  rise in cases to above [47.7K]{.fill2} by July 21, then fell to [25K]{.fill2} in 1st week of August to rise again to [34K]{.fill2} by end of August. 
 New fatal cases rose from 1 on 6th March 2020 to [1123]{.fill2} on 10th April 2020. New fatal case fell to 1 by start of August 1st week. Fatal cases rose to above [1450]{.fill2} by start of Feb 2021.On May 3 new death case dropped to 1 again rose very mildly and fell to [0]{.fill2} on 1st June 21. Figure started rising and by end week of August a high of [133]{.fill2} observed.
 
@@ -111,7 +111,7 @@ The startling revelation that is evident from the analysis are:
 
 
 
-# Interactive Analysis Of Covid-19 Parameters
+## Interactive Analysis Of Covid-19 Parameters
 
 ```{r Int,echo = FALSE, warning = FALSE,message=FALSE,fig.cap="Interactive line chart of covid-19 parameters"}
 
@@ -164,7 +164,7 @@ gbr_1
 
 ```
 
-# Statistical description of covid-19 parameters
+## Statistical description of covid-19 parameters
 
 ```{r summary,echo = FALSE, warning = FALSE,message=FALSE,fig.cap="Statistical description of covid-19 parameters"}
 
@@ -177,7 +177,7 @@ stat_tab<-descr(gbr_stat)%>%kbl() %>%
 stat_tab
 ```
 
-# Full Vaccination Percentage In UK 
+## Full Vaccination Percentage In UK 
 
 ```{r vaccination, echo = FALSE, warning = FALSE,message=FALSE,fig.cap="Covid-19 vaccination coverage month and year wise"}
 gbr_wide%>%filter(Month_yr>"2020-11")%>%
@@ -194,7 +194,7 @@ hchart(type = "bar", hcaes(x = Month_yr , y = vaccination_pcnt,color=c("#009107"
 
 ```
 
-# Interactive Data Populated Year-Month Wise
+## Interactive Data Populated Year-Month Wise
 
 ```{r Interactive, echo=FALSE, message=FALSE, warning=FALSE,fig.cap="Interactive data table showing trend of some parameters month and year wise"}
 gbr_wide %>%group_by(Month_yr)%>%
@@ -207,7 +207,7 @@ summarise(avg_numberof_tests = scales::comma(round(mean(new_tests))),avg_numbero
   spk_add_deps()
 ```
 
-# References
+## References
 
 [1] Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source
   Software, 4(43), 1686, https://doi.org/10.21105/joss.01686

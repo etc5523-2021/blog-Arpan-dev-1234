@@ -12,7 +12,8 @@ navbar:
 base_url: https://arpanbloggersorg.netlify.app/
 collections:
   posts:
-    share: [twitter,linkedin]
+    share: [twitter,linkedin, facebook]
+    citations: FALSE
 output: 
   distill::distill_article:
     toc: true

@@ -25,6 +25,30 @@ knitr::opts_chunk$set(echo = FALSE,
                       warning=FALSE)
 ```
 
+```{css, echo = FALSE}
+.fill {
+  color: red;
+  font-weight: bold;
+}
+h2 {
+  color: #006DAE;
+}
+
+.fill1 {
+  color: #c41244;
+  font-weight: normal;
+}
+
+.fill2 {
+  color: #1c2aad;
+  font-weight: normal;
+}
+
+
+```
+
+
+
 ```{r}
 library(tidyverse)
 library(tidycovid19)
@@ -43,7 +67,15 @@ library(gt)
 library(formattable)
 ```
 
-```{r}
+
+
+![EGYPT](https://cdn140.picsart.com/306968023133201.gif?to=min&r=640)
+
+
+## Effect of Covid-19 in Egypt: an Instant Insight
+
+
+```{r fig1, fig.cap="Covid-19 confirmed and death cases distribution"}
 df <- download_merged_data(cached = TRUE, silent = TRUE)
 
 e<-df %>%
@@ -68,13 +100,14 @@ ggplotly(e)
 
 
 
-
-```{r}
+```{r fig2, fig.cap="month wise total figures"}
 df <- download_merged_data(cached = TRUE, silent = TRUE)
 
   EGY<- df %>%filter(iso3c == "EGY")
   
-  EGY_wide<- EGY %>%  mutate(new_cases = confirmed - lag(confirmed), new_deaths= deaths-lag(deaths),new_vaccination = total_vaccinations - lag(total_vaccinations), new_recovered= recovered- lag(recovered), new_tests= total_tests- lag(total_tests),Month_yr=format_ISO8601(EGY$date, precision = "ym"),vaccination_pcnt=(total_vaccinations/(2*population)*100))%>%filter(new_recovered != -232179)%>% group_by(Month_yr)%>% summarise( new_cases= sum(new_cases,na.rm = T), new_deaths=sum(new_deaths, na.rm = T),new_vaccination=sum(new_vaccination, na.rm = T), new_recovered=sum(new_recovered, na.rm = T), new_tests= sum(new_tests)) 
+  
+  
+  EGY_wide<- EGY %>%  mutate(new_cases = confirmed - lag(confirmed), new_deaths= deaths-lag(deaths),new_vaccination = total_vaccinations - lag(total_vaccinations), new_recovered= recovered- lag(recovered), new_tests= total_tests- lag(total_tests),Month_yr=format_ISO8601(EGY$date, precision = "ym"),vaccination_pcnt=(total_vaccinations/(2*population)*100))%>%filter(new_recovered != -232179)%>% group_by(Month_yr) %>% summarise( new_cases= sum(new_cases,na.rm = T), new_deaths=sum(new_deaths, na.rm = T),new_vaccination=sum(new_vaccination, na.rm = T), new_recovered=sum(new_recovered, na.rm = T), new_tests= sum(new_tests)) 
 
 EGY1<-EGY_wide%>%filter(new_recovered != -232179, Month_yr>'2020-03') 
 
@@ -87,12 +120,38 @@ EGY1<-EGY_wide%>%filter(new_recovered != -232179, Month_yr>'2020-03')
    hc_add_series(name="New Recoveries",data = EGY1$new_recovered)
 ```
 
+```{r fig3, fig.cap="Five days of highest covid cases"}
+df <- download_merged_data(cached = TRUE, silent = TRUE)
+
+  EGY<- df %>%filter(iso3c == "EGY")
+  
+EGY_wide1<- EGY %>%  mutate(new_cases = confirmed - lag(confirmed), new_deaths= deaths-lag(deaths),new_vaccination = total_vaccinations - lag(total_vaccinations), new_recovered= recovered- lag(recovered), new_tests= total_tests- lag(total_tests),Month_yr=format_ISO8601(EGY$date, precision = "ym"),vaccination_pcnt=(total_vaccinations/(2*population)*100))%>%select(Month_yr,new_tests,new_cases,new_deaths,new_vaccination,new_recovered,deaths,total_vaccinations,vaccination_pcnt,date)
+
+library(gt)
+df1 <- EGY_wide1%>% select(date,new_cases,new_deaths)
+
+df1<-df1[order(df1$new_cases,decreasing = T), ]
+
+df1<- df1%>% head(5)
+
+gt(df1) %>% 
+  tab_header(title = "Top 5 days of highest covid cases",
+             subtitle = "Egypt") %>% 
+  tab_source_note(md("Source:https://github.com/joachim-gassen/tidycovid19"))
+```
+
+- Among the middle east countries, the effect of [Covid-19]{.fill} in **Egypt** is highlighted. It is an African nation, mainly famous for its [**Pyramids**](https://www.history.com/topics/ancient-history/the-egyptian-pyramids), [**Sphinx**](https://timesofindia.indiatimes.com/travel/Cairo/Great-Sphinx-of-Giza/ps52554527.cms) and [**Deserts**](https://edition.cnn.com/travel/article/egypt-white-desert/index.html). It is an important international tourist destination too. Data on new-cases, new-deaths and new-recoveries from beginning of the calendar year [2020 to 13th September 2021]{.fill2} are considered for analytics. Three different colours are used for visualization of data. Two graphs, one density plot and other one histogram are created for easy understanding. In the 1st plot, only two vital variables considered, viz.  Number of **New Infection cases** and **New Fatal cases**. Hovering over the graph with the cursor, user can find the figure for the related month with date, all related information viz., **new-cases, new-deaths**. The graph as a whole provides the instant understanding of the status over the period.
+
+- The 2nd plot \@ref(fig:fig2) is a histogram showing month wise total figures related to **new-infection**, **new-deaths**, **new-recoveries**. **Three radio buttons** provided at the bottom of the graph, showing different colours related to the **three variables under watch**.  While putting the **cursor on any button**, that particular variable becomes **prominent in the graph**, with other two variables being in **faint colour**, rendering the viewer with clear understanding. The user had the freedom of choice to see the trends of a single variable also. Here the **tool tip facility** also provided to reveal the figures for the variables.
+
+- The revelation from the graphs shows that fatal cases are **moderately low**. The highest figure [1774]{.fill2} was recorded in [June 2020]{.fill2}. One noticeable point is that fatal case per day never exceeded 100 [(highest figure is 97 on 15 June 2020)]{.fill2}. After vaccines were made available from March [2021]{.fill2}, the figure was high in [May '21]{.fill2} with [1757]{.fill2} deaths, which gradually fell down to [205]{.fill2} in [August '21]{.fill2}. New infection cases were also not very high. In June [2020]{.fill2}, the highest figure was [43326]{.fill2} which fell down to [4259]{.fill2} in [September 2020]{.fill2}. From [16473]{.fill2} in [Feb 2021]{.fill2}, new infection cases rose to [35098]{.fill2} in [May 2021]{.fill2}. The figure fell to as low as [2980 in July]{.fill2} and slightly rose to [4128]{.fill2} in [August '21]{.fill2}. Covid management in Egypt was more or less commendable.
 
 
-```{r covdf1,layout = "l-body-outset"}
+
+```{r covdf1}
 covdf <- df %>% 
   filter(date == "2021-08-30") %>% 
-  filter(region == "Middle East & North Africa") %>% 
+  filter(region =="Middle East & North Africa") %>% 
   select(c(`country`,`confirmed`,`deaths`,`population`,`total_vaccinations`)) %>% 
   mutate(confirmed = as.double(confirmed),
          death_rate = (deaths/confirmed)*100,
@@ -117,12 +176,12 @@ covdf1 <- covdf %>%
 covdf1$country[6]<-"UAE"
 covdf1$country[11]<-"PSE"
 covdf1$total_vaccinations[14]<- 10769834
-covdf1$Vax_Percentage[14]<- (10769834/102334403)*100
+covdf1$Vax_Percentage[14]<- (5744030/102334403)*100
 library(formattable)
 formattable(covdf1, list(
     New_cases = color_tile("#ffe59c","#f5b642"),
     death_rate = color_tile("transparent", "#e04c65"),
-    population = color_tile("#fc6958","#ff0000"),
+    population = color_tile("#99f7ff","#23e6f7"),
     total_vaccinations = color_tile("#8ee693","#27962d"),
     Vax_Percentage = color_tile("transparent","#27962d")
     ),
@@ -130,16 +189,10 @@ formattable(covdf1, list(
     caption = "Covid19 situation in middle-east countries")%>%scroll_box(width = "660px", height = "400px")
 ```
 
-```{r}
-
-EGY_wide1<- EGY %>%  mutate(new_cases = confirmed - lag(confirmed), new_deaths= deaths-lag(deaths),new_vaccination = total_vaccinations - lag(total_vaccinations), new_recovered= recovered- lag(recovered), new_tests= total_tests- lag(total_tests),Month_yr=format_ISO8601(EGY$date, precision = "ym"),vaccination_pcnt=(total_vaccinations/(2*population)*100))%>%select(Month_yr,new_tests,new_cases,new_deaths,new_vaccination,new_recovered,deaths,total_vaccinations,vaccination_pcnt)
-
-```
 
 
 
-
-```{r}
+```{r vac,fig.cap="vaccination coverage"}
 EGY_wide1%>%filter(Month_yr>"2021-02")%>%
   
 hchart(type = "bar", hcaes(x = Month_yr , y = round(vaccination_pcnt, digits = 3),color=c("#009107")))%>% hc_yAxis(title = list(text = "Percentage Of Vaccination"),
@@ -153,24 +206,83 @@ hchart(type = "bar", hcaes(x = Month_yr , y = round(vaccination_pcnt, digits = 3
 
 
 
-```{r}
-EGY_wide1%>%
+```{r death, fig.cap="Death Cases Month Wise"}
+EGY_wide%>%
   
 hchart(type = "bar", hcaes(x = Month_yr , y = new_deaths,color=c("#870000")))%>% hc_yAxis(title = list(text = "Death Cases"),
          
          plotLines = list(
-           list(label = list(text = ""),
-                color = "red",
-                width = 2,
-                value = 50)))
+           list(label = list(text = ""))))
 
 ```
 
 
+## Vaccine, the Real Solution for Covid-19- Is the pace Right in Egypt? 
+
+
+It is of importance for something that is as relevant as it deserves.    
+With knowledge and experience to deal with [Covid-19]{.fill}, the solution that we have now with us, to protect human lives is the Vaccine. 
+Although the protective habits like use of **mask, sanitization** and maintaining physical distance etc.  are still important and statutorily should be maintained, but the global focus is now on inoculation.
+The horizontal bar chart shows the inoculation status of **Egypt** since [March 2021 to 13 September 2021]{.fill2}. The graph shows month wise vaccination percentage, with provision of showing the exact figure by putting the cursor on the bar (tool tip figure). The percentage figure was abysmally low [(0.08%)]{.fill2} in [March '21]{.fill2} and then rose to [4.271% in August '21]{.fill2}. [September '21 till 13th, the figure (5.613%)]{.fill2} is very encouraging.
+
+The revelations are very important. The trend is not much different from other nations, where the vaccine hesitation was a major concern to raise the tempo. Here also it caught the speed gradually but always on increasing note. But the difference that is visible with other major middle east nations like, **UAE, Malta, Israel, Bahrain, Saudi Arabia, Oman** etc. is the percentage of inoculation. In Egypt it is far less at [10%]{.fill2} of population being inoculated till date, whereas the figure for [UAE]{.fill2} is as high as more than [91%]{.fill2} (see the table data). The total population of Egypt is more than [10 times of UAE]{.fill2}, is also a point to be noted. However, the reasons for low pace of vaccination could be due to:
+
+-  Socio-Economic heterogeneity
+-  Low fatality rate
+-  Less concentration of population
+-  Disciplined attitude among people to thwart the spread by following statutory norms etc. 
+
+To authenticate the fact that, the more is the vaccination, the less will be fatality rate, see above 2 bar plots \@ref(fig:vac) and \@ref(fig:death). The graph reveals that post [May2-021]{.fill2}, fatal cases are on a steady decline while vaccination figures are on the rise as shown in \@ref(fig:vac).
 
 
 
+## References
 
+
+1. Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source
+  Software, 4(43), 1686, https://doi.org/10.21105/joss.01686
+  
+2. Joachim Gassen (2021). tidycovid19: Download, Tidy and Visualize Covid-19
+  Related Data. R package version 0.0.0.9000.
+  
+3. Achim Zeileis and Gabor Grothendieck (2005). zoo: S3 Infrastructure for
+  Regular and Irregular Time Series. Journal of Statistical Software, 14(6),
+  1-27. doi:10.18637/jss.v014.i06
+
+4. C. Sievert. Interactive Web-Based Data Visualization with R, plotly, and
+  shiny. Chapman and Hall/CRC Florida, 2020.
+  
+5. Thomas Lin Pedersen (2021). ggforce: Accelerating 'ggplot2'. R package
+  version 0.3.3. https://CRAN.R-project.org/package=ggforce
+  
+6. Thomas Lin Pedersen (2020). patchwork: The Composer of Plots. R package
+  version 1.1.1. https://CRAN.R-project.org/package=patchwork
+  
+7. Claus O. Wilke (2020). ggtext: Improved Text Rendering Support for 'ggplot2'.
+  R package version 0.1.1. https://CRAN.R-project.org/package=ggtext
+
+8. Ramnath Vaidyanathan, Kent Russell and Gareth Watts (2016). sparkline:
+  'jQuery' Sparkline 'htmlwidget'. R package version 2.0.
+  https://CRAN.R-project.org/package=sparkline
+
+9.  Yihui Xie, Joe Cheng and Xianying Tan (2021). DT: A Wrapper of the JavaScript
+  Library 'DataTables'. R package version 0.18.
+  https://CRAN.R-project.org/package=DT
+  
+10. Dominic Comtois (2021). summarytools: Tools to Quickly and Neatly Summarize
+  Data. R package version 1.0.0.
+  https://CRAN.R-project.org/package=summarytools
+  
+11.  Joshua Kunst (2020). highcharter: A Wrapper for the 'Highcharts' Library. R
+  package version 0.8.2. https://CRAN.R-project.org/package=highcharter
+  
+12.  Hao Zhu (2021). kableExtra: Construct Complex Table with 'kable' and Pipe
+  Syntax. R package version 1.3.4.
+  https://CRAN.R-project.org/package=kableExtra
+  
+13.  Garrett Grolemund, Hadley Wickham (2011). Dates and Times Made Easy with
+  lubridate. Journal of Statistical Software, 40(3), 1-25. URL
+  https://www.jstatsoft.org/v40/i03/.
 
 
 
