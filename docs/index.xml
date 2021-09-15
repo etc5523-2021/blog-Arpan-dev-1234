@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>Arpan's Blog</title>
+    <link>https://arpanbloggersorg.netlify.app/</link>
+    <atom:link href="https://arpanbloggersorg.netlify.app/index.xml" rel="self" type="application/rss+xml"/>
+    <description>Arpan's Blog
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Thu, 02 Sep 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Covid-19 Still a Menace:</title>
+      <dc:creator>Arpan Sarkar</dc:creator>
+      <link>https://arpanbloggersorg.netlify.app/posts/2021-09-02-my-first-post</link>
+      <description>An Insight on live data of UK</description>
+      <category>GGplot</category>
+      <category>Plotly</category>
+      <category>stats</category>
+      <category>highcharts</category>
+      <category>highcharter</category>
+      <category>time-series</category>
+      <category>data-visualization</category>
+      <guid>https://arpanbloggersorg.netlify.app/posts/2021-09-02-my-first-post</guid>
+      <pubDate>Thu, 02 Sep 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://arpanbloggersorg.netlify.app/posts/2021-09-02-my-first-post/images/preview.PNG" medium="image" type="image/png" width="732" height="511"/>
+    </item>
+    <item>
+      <title>Egypt Covid-19 Information</title>
+      <dc:creator>Arpan Sarkar</dc:creator>
+      <link>https://arpanbloggersorg.netlify.app/posts/2021-09-14-my-2nd-post</link>
+      <description>An Insight on live data of Egypt</description>
+      <category>GGplot</category>
+      <category>Plotly</category>
+      <category>stats</category>
+      <category>highcharts</category>
+      <category>highcharter</category>
+      <category>time-series</category>
+      <category>data-visualization</category>
+      <guid>https://arpanbloggersorg.netlify.app/posts/2021-09-14-my-2nd-post</guid>
+      <pubDate>Thu, 02 Sep 2021 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>
