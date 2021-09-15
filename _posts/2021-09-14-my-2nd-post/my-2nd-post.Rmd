@@ -46,11 +46,11 @@ library(formattable)
 ```{r}
 df <- download_merged_data(cached = TRUE, silent = TRUE)
 
-EGY<- df %>%filter(iso3c == "EGY")
+  EGY<- df %>%filter(iso3c == "EGY")
+  
+  EGY_wide<- EGY %>%  mutate(new_cases = confirmed - lag(confirmed), new_deaths= deaths-lag(deaths),new_vaccination = total_vaccinations - lag(total_vaccinations), new_recovered= recovered- lag(recovered), new_tests= total_tests- lag(total_tests),Month_yr=format_ISO8601(EGY$date, precision = "ym"),vaccination_pcnt=(total_vaccinations/(2*population)*100))%>%select(Month_yr,new_tests,new_cases,new_deaths,new_vaccination,new_recovered,deaths,total_vaccinations,vaccination_pcnt)
 
-EGY_wide<- EGY %>%  mutate(new_cases = confirmed - lag(confirmed), new_deaths= deaths-lag(deaths),new_vaccination = total_vaccinations - lag(total_vaccinations), new_recovered= recovered- lag(recovered), new_tests= total_tests- lag(total_tests),Month_yr=format_ISO8601(EGY$date, precision = "ym"),vaccination_pcnt=(total_vaccinations/(2*population)*100))%>%select(Month_yr,new_tests,new_cases,new_deaths,new_vaccination,new_recovered,deaths,total_vaccinations,vaccination_pcnt)
-
-EGY1<-EGY_wide%>%filter(Month_yr>="2020-03" & Month_yr<="2021-07") 
+EGY1<-EGY_wide%>%filter(new_recovered != -232179) 
 
 
  highchart() %>% 
@@ -70,7 +70,7 @@ covdf <- df %>%
   select(c(`country`,`confirmed`,`deaths`,`population`,`total_vaccinations`)) %>% 
   mutate(confirmed = as.double(confirmed),
          deathRate = (deaths/confirmed)*100,
-         vaccinationpcnt=(total_vaccinations)/(2*population)) %>%
+         vaccinationpcnt=((total_vaccinations)/(2*population))*100) %>%
   
   relocate(deathRate, .before = population) %>%
   arrange(desc(confirmed)) 
@@ -90,6 +90,8 @@ covdf1 <- covdf %>%
   mutate(across(is.numeric, ~round(.,3)))
 covdf1$country[6]<-"UAE"
 covdf1$country[11]<-"PSE"
+covdf1$total_vaccinations[14]<- 10769834
+covdf1$Vax_Percentage[14]<- (10769834/102334403)*100
 library(kableExtra)
 library(formattable)
 formattable(covdf1, list(
@@ -104,7 +106,7 @@ formattable(covdf1, list(
 ```{r}
 EGY_wide%>%filter(Month_yr>"2021-02")%>%
   
-hchart(type = "bar", hcaes(x = Month_yr , y = vaccination_pcnt,color=c("#009107")))%>% hc_yAxis(title = list(text = "Percentage Of Vaccination"),
+hchart(type = "bar", hcaes(x = Month_yr , y = round(vaccination_pcnt, digits = 3),color=c("#009107")))%>% hc_yAxis(title = list(text = "Percentage Of Vaccination"),
          
          plotLines = list(
            list(label = list(text = ""),

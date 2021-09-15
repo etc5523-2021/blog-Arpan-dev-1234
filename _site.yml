@@ -7,7 +7,6 @@ navbar:
   right:
     - icon: fa-home 
       href: index.html
-      text: "HOME"
     - icon: fa-book
       href: about.html
 base_url: https://arpanbloggersorg.netlify.app/
