@@ -4,7 +4,7 @@ description: |
   An Insight on live data of Egypt
 author:
   - name: Arpan Sarkar
-date: 09-02-2021
+date: 09-15-2021
 output:
   distill::distill_article:
     self_contained: false
@@ -46,9 +46,35 @@ library(formattable)
 ```{r}
 df <- download_merged_data(cached = TRUE, silent = TRUE)
 
+e<-df %>%
+  filter(iso3c == "EGY") %>%
+  mutate(
+    new_cases = confirmed - lag(confirmed),
+    ave_new_cases = rollmean(new_cases, 7, na.pad=TRUE, align="right"),
+  new_deaths = deaths-lag(deaths), ave_new_deaths= rollmean(new_deaths, 7, na.pad=TRUE, align="right") ) %>%
+  filter(!is.na(new_cases), !is.na(ave_new_cases)) %>%
+  filter(!is.na(new_deaths), !is.na(ave_new_deaths))%>%
+  ggplot(aes(x = date)) +
+          
+  labs(y="New cases and deaths")+
+  geom_bar(aes(y = new_cases), stat = "identity", fill = "lightblue") +
+  geom_line(aes(y = ave_new_cases), color ="orange") +
+  geom_line(aes(y= new_deaths), color ="red")+
+  theme(axis.text.x = element_text(angle=75))+
+  theme_minimal()
+
+ggplotly(e)
+```
+
+
+
+
+```{r}
+df <- download_merged_data(cached = TRUE, silent = TRUE)
+
   EGY<- df %>%filter(iso3c == "EGY")
   
-  EGY_wide<- EGY %>%  mutate(new_cases = confirmed - lag(confirmed), new_deaths= deaths-lag(deaths),new_vaccination = total_vaccinations - lag(total_vaccinations), new_recovered= recovered- lag(recovered), new_tests= total_tests- lag(total_tests),Month_yr=format_ISO8601(EGY$date, precision = "ym"),vaccination_pcnt=(total_vaccinations/(2*population)*100))%>%select(Month_yr,new_tests,new_cases,new_deaths,new_vaccination,new_recovered,deaths,total_vaccinations,vaccination_pcnt)
+  EGY_wide<- EGY %>%  mutate(new_cases = confirmed - lag(confirmed), new_deaths= deaths-lag(deaths),new_vaccination = total_vaccinations - lag(total_vaccinations), new_recovered= recovered- lag(recovered), new_tests= total_tests- lag(total_tests),Month_yr=format_ISO8601(EGY$date, precision = "ym"),vaccination_pcnt=(total_vaccinations/(2*population)*100))%>%filter(new_recovered != -232179)%>% group_by(Month_yr)%>% summarise( new_cases= sum(new_cases,na.rm = T), new_deaths=sum(new_deaths, na.rm = T),new_vaccination=sum(new_vaccination, na.rm = T), new_recovered=sum(new_recovered, na.rm = T), new_tests= sum(new_tests)) 
 
 EGY1<-EGY_wide%>%filter(new_recovered != -232179) 
 
@@ -104,7 +130,10 @@ formattable(covdf1, list(
 ```
 
 ```{r}
-EGY_wide%>%filter(Month_yr>"2021-02")%>%
+
+EGY_wide1<- EGY %>%  mutate(new_cases = confirmed - lag(confirmed), new_deaths= deaths-lag(deaths),new_vaccination = total_vaccinations - lag(total_vaccinations), new_recovered= recovered- lag(recovered), new_tests= total_tests- lag(total_tests),Month_yr=format_ISO8601(EGY$date, precision = "ym"),vaccination_pcnt=(total_vaccinations/(2*population)*100))%>%select(Month_yr,new_tests,new_cases,new_deaths,new_vaccination,new_recovered,deaths,total_vaccinations,vaccination_pcnt)
+
+EGY_wide1%>%filter(Month_yr>"2021-02")%>%
   
 hchart(type = "bar", hcaes(x = Month_yr , y = round(vaccination_pcnt, digits = 3),color=c("#009107")))%>% hc_yAxis(title = list(text = "Percentage Of Vaccination"),
          
@@ -114,7 +143,7 @@ hchart(type = "bar", hcaes(x = Month_yr , y = round(vaccination_pcnt, digits = 3
                 width = 2,
                 value = 50)))
 
-EGY_wide%>%filter(Month_yr>"2021-02")%>%
+EGY_wide1%>%filter(Month_yr>"2021-02")%>%
   
 hchart(type = "bar", hcaes(x = Month_yr , y = new_deaths,color=c("#870000")))%>% hc_yAxis(title = list(text = "Death Cases"),
          
