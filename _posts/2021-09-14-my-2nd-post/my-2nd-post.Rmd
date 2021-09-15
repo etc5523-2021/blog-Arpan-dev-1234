@@ -76,7 +76,7 @@ df <- download_merged_data(cached = TRUE, silent = TRUE)
   
   EGY_wide<- EGY %>%  mutate(new_cases = confirmed - lag(confirmed), new_deaths= deaths-lag(deaths),new_vaccination = total_vaccinations - lag(total_vaccinations), new_recovered= recovered- lag(recovered), new_tests= total_tests- lag(total_tests),Month_yr=format_ISO8601(EGY$date, precision = "ym"),vaccination_pcnt=(total_vaccinations/(2*population)*100))%>%filter(new_recovered != -232179)%>% group_by(Month_yr)%>% summarise( new_cases= sum(new_cases,na.rm = T), new_deaths=sum(new_deaths, na.rm = T),new_vaccination=sum(new_vaccination, na.rm = T), new_recovered=sum(new_recovered, na.rm = T), new_tests= sum(new_tests)) 
 
-EGY1<-EGY_wide%>%filter(new_recovered != -232179) 
+EGY1<-EGY_wide%>%filter(new_recovered != -232179, Month_yr>'2020-03') 
 
 
  highchart() %>% 
@@ -95,10 +95,10 @@ covdf <- df %>%
   filter(region == "Middle East & North Africa") %>% 
   select(c(`country`,`confirmed`,`deaths`,`population`,`total_vaccinations`)) %>% 
   mutate(confirmed = as.double(confirmed),
-         deathRate = (deaths/confirmed)*100,
+         death_rate = (deaths/confirmed)*100,
          vaccinationpcnt=((total_vaccinations)/(2*population))*100) %>%
   
-  relocate(deathRate, .before = population) %>%
+  relocate(death_rate, .before = population) %>%
   arrange(desc(confirmed)) 
 covdf$population[19]<-2807.0000
 covdf$population[20]<-1343.2700
@@ -106,7 +106,7 @@ covdf1 <- covdf %>%
   select(-`deaths`) %>% 
   mutate(Rank = 1:nrow(covdf)) %>% 
   relocate(Rank, .before = country) %>% 
-  mutate(death_rank = order(order(deathRate, decreasing = T))) %>% 
+  mutate(death_rank = order(order(death_rate, decreasing = T))) %>% 
   relocate(death_rank, .before = population) %>%
   mutate(population_rank = order(order(population, decreasing = T))) %>% 
   rename(population = `population`) %>% 
@@ -118,21 +118,28 @@ covdf1$country[6]<-"UAE"
 covdf1$country[11]<-"PSE"
 covdf1$total_vaccinations[14]<- 10769834
 covdf1$Vax_Percentage[14]<- (10769834/102334403)*100
-library(kableExtra)
 library(formattable)
 formattable(covdf1, list(
-    New_cases = color_tile("transparent", "#f5b642"),
-    deathRate = color_tile("transparent", "#e04c65"),
-    population = color_tile("transparent", "#fc6958")
+    New_cases = color_tile("#ffe59c","#f5b642"),
+    death_rate = color_tile("transparent", "#e04c65"),
+    population = color_tile("#fc6958","#ff0000"),
+    total_vaccinations = color_tile("#8ee693","#27962d"),
+    Vax_Percentage = color_tile("transparent","#27962d")
     ),
     align = "c",
-    caption = "Covid19 situation in middle-east countries")
+    caption = "Covid19 situation in middle-east countries")%>%scroll_box(width = "660px", height = "400px")
 ```
 
 ```{r}
 
 EGY_wide1<- EGY %>%  mutate(new_cases = confirmed - lag(confirmed), new_deaths= deaths-lag(deaths),new_vaccination = total_vaccinations - lag(total_vaccinations), new_recovered= recovered- lag(recovered), new_tests= total_tests- lag(total_tests),Month_yr=format_ISO8601(EGY$date, precision = "ym"),vaccination_pcnt=(total_vaccinations/(2*population)*100))%>%select(Month_yr,new_tests,new_cases,new_deaths,new_vaccination,new_recovered,deaths,total_vaccinations,vaccination_pcnt)
 
+```
+
+
+
+
+```{r}
 EGY_wide1%>%filter(Month_yr>"2021-02")%>%
   
 hchart(type = "bar", hcaes(x = Month_yr , y = round(vaccination_pcnt, digits = 3),color=c("#009107")))%>% hc_yAxis(title = list(text = "Percentage Of Vaccination"),
@@ -142,8 +149,12 @@ hchart(type = "bar", hcaes(x = Month_yr , y = round(vaccination_pcnt, digits = 3
                 color = "red",
                 width = 2,
                 value = 50)))
+```
 
-EGY_wide1%>%filter(Month_yr>"2021-02")%>%
+
+
+```{r}
+EGY_wide1%>%
   
 hchart(type = "bar", hcaes(x = Month_yr , y = new_deaths,color=c("#870000")))%>% hc_yAxis(title = list(text = "Death Cases"),
          
