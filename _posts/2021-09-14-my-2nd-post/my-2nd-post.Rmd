@@ -196,7 +196,7 @@ formattable(covdf1, list(
 ```{r vac,fig.cap="vaccination coverage"}
 EGY_wide1%>%filter(Month_yr>"2021-02")%>%
   
-hchart(type = "bar", hcaes(x = Month_yr , y = round(vaccination_pcnt, digits = 3),color=c("#009107")))%>% hc_yAxis(title = list(text = "Percentage Of Vaccination"),
+hchart(type = "bar", hcaes(x = Month_yr , y = round(vaccination_pcnt, digits = 3),color=c("#009107")))%>% hc_yAxis(title = list(text = "Cummalative Percentage Of Vaccination"),
          
          plotLines = list(
            list(label = list(text = ""),
@@ -226,7 +226,7 @@ With knowledge and experience to deal with [Covid-19]{.fill}, the solution that 
 Although the protective habits like use of **mask, sanitization** and maintaining physical distance etc.  are still important and statutorily should be maintained, but the global focus is now on inoculation.
 The horizontal bar chart shows the inoculation status of **Egypt** since [March 2021 to 13 September 2021]{.fill2}. The graph shows month wise vaccination percentage, with provision of showing the exact figure by putting the cursor on the bar (tool tip figure). The percentage figure was abysmally low [(0.08%)]{.fill2} in [March '21]{.fill2} and then rose to [4.271% in August '21]{.fill2}. [September '21 till 13th, the figure (5.613%)]{.fill2} is very encouraging.
 
-The revelations are very important. The trend is not much different from other nations, where the vaccine hesitation was a major concern to raise the tempo. Here also it caught the speed gradually but always on increasing note. But the difference that is visible with other major middle east nations like, **UAE, Malta, Israel, Bahrain, Saudi Arabia, Oman** etc. is the percentage of inoculation. In Egypt it is far less at [10%]{.fill2} of population being inoculated till date, whereas the figure for [UAE]{.fill2} is as high as more than [91%]{.fill2} (see the table data). The total population of Egypt is more than [10 times of UAE]{.fill2}, is also a point to be noted. However, the reasons for low pace of vaccination could be due to:
+The revelations are very important. The trend is not much different from other nations, where the vaccine hesitation was a major concern to raise the tempo. Here also it caught the speed gradually but always on increasing note. But the difference that is visible with other major middle east nations like, **UAE, Malta, Israel, Bahrain, Saudi Arabia, Oman** etc. is the percentage of inoculation. In Egypt it is far less than [10%]{.fill2} of population being inoculated till date, whereas the figure for [UAE]{.fill2} is as high as more than [91%]{.fill2} (see the table data). The total population of Egypt is more than [10 times of UAE]{.fill2}, is also a point to be noted. However, the reasons for low pace of vaccination could be due to:
 
 -  Socio-Economic heterogeneity
 -  Low fatality rate
