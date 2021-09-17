@@ -4,7 +4,7 @@ description: |
   An Insight on live data of Egypt
 author:
   - name: Arpan Sarkar
-date: 09-15-2021
+date: 09-16-2021
 output:
   distill::distill_article:
     self_contained: false
@@ -17,6 +17,7 @@ categories:
   - highcharter
   - time-series
   - data-visualization
+preview: images/egypt-healthcare.jpg  
 ---
 ```{r global, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, 

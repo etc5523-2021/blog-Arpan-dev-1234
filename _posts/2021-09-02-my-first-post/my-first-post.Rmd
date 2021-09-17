@@ -1,5 +1,5 @@
 ---
-title: "Covid-19 Still a Menace:"
+title: "Covid-19 Still a Menace"
 description: |
   An Insight on live data of UK
 author:
@@ -17,7 +17,7 @@ categories:
   - highcharter
   - time-series
   - data-visualization
-preview: images/preview.PNG      
+preview: images/united-kingdom-coronavirus.PNG      
 ---
 ```{css, echo = FALSE}
 .fill {

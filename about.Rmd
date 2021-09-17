@@ -36,7 +36,7 @@ h2 {
 
 
 
-Live and historical data available in public domain on Covid-19 of the United Kingdom are explored.
+Live and historical data available in public domain on Covid-19 of the United Kingdom and Egypt are explored.
 
 ### Data description
 

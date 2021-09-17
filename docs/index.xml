@@ -7,7 +7,7 @@
     <description>Arpan's Blog
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Tue, 14 Sep 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 16 Sep 2021 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Egypt Covid-19 Information</title>
       <dc:creator>Arpan Sarkar</dc:creator>
@@ -21,10 +21,11 @@
       <category>time-series</category>
       <category>data-visualization</category>
       <guid>https://arpanbloggersorg.netlify.app/posts/2021-09-14-my-2nd-post</guid>
-      <pubDate>Tue, 14 Sep 2021 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 16 Sep 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://arpanbloggersorg.netlify.app/posts/2021-09-14-my-2nd-post/images/egypt-healthcare.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
-      <title>Covid-19 Still a Menace:</title>
+      <title>Covid-19 Still a Menace</title>
       <dc:creator>Arpan Sarkar</dc:creator>
       <link>https://arpanbloggersorg.netlify.app/posts/2021-09-02-my-first-post</link>
       <description>An Insight on live data of UK</description>
@@ -37,7 +38,7 @@
       <category>data-visualization</category>
       <guid>https://arpanbloggersorg.netlify.app/posts/2021-09-02-my-first-post</guid>
       <pubDate>Thu, 02 Sep 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://arpanbloggersorg.netlify.app/posts/2021-09-02-my-first-post/images/preview.PNG" medium="image" type="image/png" width="732" height="511"/>
+      <media:content url="https://arpanbloggersorg.netlify.app/posts/2021-09-02-my-first-post/images/united-kingdom-coronavirus.PNG" medium="image" type="image/png" width="750" height="350"/>
     </item>
   </channel>
 </rss>
