@@ -10,7 +10,7 @@ This assessment is due Fri Sep 3 2021 11.55PM AEST.
 
 My selected country is United Kingdom.
 
-The relevant blog post for this assessment is in https://arpanbloggersorg.netlify.app/posts/2021-09-02-my-first-post/
+The relevant blog post for this assessment is in my-first-post.html inside _posts folder
 
 - [✓] Selected a country
 - [✓] Website with R markdown 
@@ -26,14 +26,14 @@ The relevant blog post for this assessment is in https://arpanbloggersorg.netlif
 
 This assessment is due Fri Sep 17 2021 11.55PM AEST.
 
-My selected country is [FILL].
+My selected country is https://arpanbloggersorg.netlify.app/.
 
-The relevant blog post for this assessment is in [FILL].html
+The relevant blog post for this assessment is in my-2nd-post.html inside _posts folder
 
-- [ ] Selected a new country
-- [ ] Data Story 1
-- [ ] Data Story 2
-- [ ] Graph 1
-- [ ] Graph 2
-- [ ] Submitted the entire blog to Moodle
+- [✓] Selected a new country
+- [✓] Data Story 1
+- [✓] Data Story 2
+- [✓] Graph 1
+- [✓] Graph 2
+- [✓] Submitted the entire blog to Moodle
 
